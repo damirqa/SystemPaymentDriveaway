@@ -15,4 +15,8 @@ public class PaymentTerminal {
 		
 		status = PaymentTerminalStatus.DONTWORK;
 	}
+	
+	public void setStatus() {
+		status = PaymentTerminalStatus.WORK;
+	}
 }

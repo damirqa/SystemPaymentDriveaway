@@ -15,4 +15,8 @@ public class Barrier {
 		
 		status = BarrierStatus.DONTWORK;
 	}
+	
+	public void setStatus() {
+		status = BarrierStatus.WORK;
+	}
 }

@@ -9,4 +9,8 @@ public class Car {
 		counter = counter + 1;
 		id = counter;
 	}
+	
+	public int getId() {
+		return id;
+	}
 }
