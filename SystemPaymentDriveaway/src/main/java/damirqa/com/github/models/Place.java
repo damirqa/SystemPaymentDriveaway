@@ -9,6 +9,7 @@ public class Place {
 	private static int counter = 0;
 	private int id;
 	
+	private int time = 0;
 	private Barrier barrier;
 	private PaymentTerminal paymentTerminal;
 	
@@ -32,6 +33,10 @@ public class Place {
 		status = PlaceStatus.WORK;
 	}
 	
+	public void setStatus(PlaceStatus status) {
+		this.status = status;
+	}
+	
 	public PlaceStatus getStatus() {
 		return status;
 	}
@@ -46,5 +51,17 @@ public class Place {
 	
 	public int getId() {
 		return id;
+	}
+
+	public Barrier getBarrier() {
+		return barrier;
+	}
+
+	public PaymentTerminal getPaymentTerminal() {
+		return paymentTerminal;
+	}
+	
+	public void addTime(int time) {
+		this.time += time;
 	}
 }

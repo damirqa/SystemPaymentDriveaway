@@ -45,9 +45,7 @@ public class CarTrackerThread implements Runnable{
 					}
 				}
 			}
-			
-			
-			
+						
 			if (place == null) { 
 				//System.out.println("Все терминалы включены");
 				int id = 0;
@@ -70,8 +68,12 @@ public class CarTrackerThread implements Runnable{
 				
 				System.out.println(" Машина №" + car.getId() + " встала в очередь к терминалу №" + place.getId() + ", так как там меньше всего машин стоят в очереди\n");
 				
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					e.getMessage();
+				}
 			}
-			
 		}
 	}
 	
@@ -88,27 +90,4 @@ public class CarTrackerThread implements Runnable{
 			car = Statistics.QUEUE.get(0); 
 		}
 	}
-	
-	private void getWorkingPlaces() {
-		for (Place place : Statistics.PLACES) {
-			if (place.getStatus() == PlaceStatus.WORK) {
-				Statistics.WORKINGPLACES.add(place);
-			}
-		}
-	}
-	
-	private Place getWorkingPlace() {
-		for (Place place : Statistics.WORKINGPLACES) {
-			if(place.getQueue().size() < 3) {
-				return place;
-			} 
-		}
-		return null;
-	}
-	
-//	private Place getDontWorkingPlace() {
-//		for (Place place : Statistics.PLACES) {
-//			
-//		}
-//	}
 }

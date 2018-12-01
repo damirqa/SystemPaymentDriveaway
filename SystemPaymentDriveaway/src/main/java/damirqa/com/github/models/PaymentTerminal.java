@@ -19,4 +19,16 @@ public class PaymentTerminal {
 	public void setStatus() {
 		status = PaymentTerminalStatus.WORK;
 	}
+	
+	public void setStatus(PaymentTerminalStatus status) {
+		this.status = status;
+	}
+	
+	public PaymentTerminalStatus getStatus() {
+		return status;
+	}
+	
+	public int getId() {
+		return id;
+	}
 }

@@ -19,4 +19,16 @@ public class Barrier {
 	public void setStatus() {
 		status = BarrierStatus.WORK;
 	}
+	
+	public void setStatus(BarrierStatus status) {
+		this.status = status;
+	}
+	
+	public BarrierStatus getStatus() {
+		return status;
+	}
+	
+	public int getId() {
+		return id;
+	}
 }
