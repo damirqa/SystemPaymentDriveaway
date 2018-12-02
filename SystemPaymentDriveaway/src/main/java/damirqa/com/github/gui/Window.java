@@ -19,11 +19,14 @@ import javax.swing.border.EmptyBorder;
 import damirqa.com.github.enums.BarrierStatus;
 import damirqa.com.github.enums.PaymentTerminalStatus;
 import damirqa.com.github.models.Place;
+import damirqa.com.github.storage.Budgeting;
 import damirqa.com.github.storage.Statistics;
+import damirqa.com.github.threads.BudgetUpdater;
 import damirqa.com.github.threads.CarCreationThread;
 import damirqa.com.github.threads.CarTrackerThread;
 import damirqa.com.github.threads.ConditionTrackerThread;
 import damirqa.com.github.threads.PlaceThread;
+import damirqa.com.github.threads.trackJob;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -34,7 +37,7 @@ import java.awt.event.ActionEvent;
 public class Window extends JFrame {
 
 	private int width = 800;
-	private int height = 600;
+	private int height = 450;
 	
 	private JPanel contentPanel;
 	
@@ -49,6 +52,23 @@ public class Window extends JFrame {
 	private JLabel fixTerminalLabel;
 	private JTextField fixTerinalField;
 	private JButton fixTerminalButton;
+	
+	private JLabel incomeLabel;
+	private JTextField incomeField;
+	
+	private JLabel repairsLabel;
+	private JTextField repairsField;
+	
+	private JLabel profitLabel;
+	private JTextField profitField;
+	
+	private static ArrayList<JTextField> budgetField = new ArrayList<JTextField>();
+	
+	private JLabel spentLabel;
+	private static JTextField spentField;
+	
+	private JLabel priceLabel;
+	private JTextField priceField;
 	
 	private JLabel terminal1;
 	private JLabel terminal2;
@@ -99,6 +119,12 @@ public class Window extends JFrame {
 					
 					Thread carTracker = new Thread(new CarTrackerThread(logArea));
 					carTracker.start();
+					
+					Thread budgetUpdater = new Thread(new BudgetUpdater(budgetField));
+					budgetUpdater.start();
+					
+					Thread jobTracker = new Thread(new trackJob(spentField));
+					jobTracker.start();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -303,6 +329,64 @@ public class Window extends JFrame {
 		fixBarrierButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		fixBarrierButton.setBounds(230, 375, 190, 25);
 		contentPanel.add(fixBarrierButton);
+		
+		incomeLabel = new JLabel("Доходы:");
+		incomeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		incomeLabel.setBounds(450, 230, 60, 20);
+		contentPanel.add(incomeLabel);
+		
+		incomeField = new JTextField();
+		incomeField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		incomeField.setBackground(Color.WHITE);
+		incomeField.setEditable(false);
+		incomeField.setBounds(520, 230, 100, 20);
+		contentPanel.add(incomeField);
+		budgetField.add(incomeField);
+		
+		repairsLabel = new JLabel("Ремонт:");
+		repairsLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		repairsLabel.setBounds(450, 255, 60, 20);
+		contentPanel.add(repairsLabel);
+		
+		repairsField = new JTextField();
+		repairsField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		repairsField.setBackground(Color.WHITE);
+		repairsField.setEditable(false);
+		repairsField.setBounds(520, 255, 100, 20);
+		contentPanel.add(repairsField);
+		budgetField.add(repairsField);
+		
+		spentLabel = new JLabel("Потрачено кВт/ч:");
+		spentLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		spentLabel.setBounds(450, 280, 125, 20);
+		contentPanel.add(spentLabel);
+		
+		spentField = new JTextField();
+		spentField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		spentField.setBackground(Color.WHITE);
+		spentField.setEditable(false);
+		spentField.setBounds(580, 280, 40, 20);
+		contentPanel.add(spentField);
+		
+		profitLabel = new JLabel("Прибыль:");
+		profitLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		profitLabel.setBounds(450, 305, 70, 20);
+		contentPanel.add(profitLabel);
+		
+		profitField = new JTextField();
+		profitField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		profitField.setBackground(Color.WHITE);
+		profitField.setEditable(false);
+		profitField.setBounds(520, 305, 100, 20);
+		contentPanel.add(profitField);
+		budgetField.add(profitField);
+		
+		priceLabel = new JLabel("Цена 1 кВ/Ч = 3 руб.");
+		priceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		priceLabel.setBounds(450, 330, 150, 20);
+		contentPanel.add(priceLabel);
+		
+		
 		
 		fixTerminalButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

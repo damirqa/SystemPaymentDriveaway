@@ -10,5 +10,7 @@ public class Statistics {
 	public static ArrayList<Place> PLACES = new ArrayList<Place>();
 	public static ArrayList<Place> WORKINGPLACES = new ArrayList<Place>();
 	public static ArrayList<Car> QUEUE = new ArrayList<Car>();
+	
+	public static int SPENT = 0;
 
 }

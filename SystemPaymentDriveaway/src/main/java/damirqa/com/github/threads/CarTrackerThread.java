@@ -77,6 +77,7 @@ public class CarTrackerThread implements Runnable{
 			
 			try {
 				sleep(1000);
+				Statistics.SPENT += 1;
 			} catch (InterruptedException e) {
 				e.getMessage();
 			}
@@ -87,6 +88,7 @@ public class CarTrackerThread implements Runnable{
 		if (Statistics.QUEUE.isEmpty()) {
 			try {
 				sleep(1000);
+				Statistics.SPENT += 1;
 			} catch (InterruptedException e) {
 				e.getMessage();
 			}

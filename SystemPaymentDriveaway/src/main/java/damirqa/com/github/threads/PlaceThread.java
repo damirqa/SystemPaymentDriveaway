@@ -52,6 +52,8 @@ public class PlaceThread implements Runnable{
 					log.setCaretPosition(log.getText().length());
 				}
 				Budgeting.INCOME += 500;
+				log.append(" Машина №" + place.getQueue().get(0).getId() + " оплатила за проезд\n");
+				log.setCaretPosition(log.getText().length());
 				
 				int conditionBarrier = (int) (Math.random() * 10);
 				
@@ -76,7 +78,9 @@ public class PlaceThread implements Runnable{
 					log.setCaretPosition(log.getText().length());
 				}
 				
-				int time = new Random().nextInt(60000 - 30000) + 30000;
+				//Budgeting.PROFIT = Budgeting.INCOME - Budgeting.REPAIRS;
+				
+				int time = new Random().nextInt(6000 - 3000) + 3000;
 				try {
 					sleep(time);
 				} catch (InterruptedException e) {
@@ -91,6 +95,8 @@ public class PlaceThread implements Runnable{
 				
 				if (place.getQueue().isEmpty()) {
 					place.setStatus(PlaceStatus.DONTWORK);
+					place.getBarrier().setStatus(BarrierStatus.DONTWORK);
+					place.getPaymentTerminal().setStatus(PaymentTerminalStatus.DONTWORK);
 				}	
 			}
 			else {
