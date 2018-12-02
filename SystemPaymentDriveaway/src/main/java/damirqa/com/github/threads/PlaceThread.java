@@ -13,12 +13,16 @@ import static java.lang.Thread.sleep;
 
 import java.util.Random;
 
+import javax.swing.JTextArea;
+
 public class PlaceThread implements Runnable{
 
 	private Place place;
+	private JTextArea log;
 	
-	public PlaceThread(Place place) {
+	public PlaceThread(Place place, JTextArea log) {
 		this.place = place;
+		this.log = log;
 	}
 	
 	public void run() {
@@ -30,7 +34,10 @@ public class PlaceThread implements Runnable{
 				if (conditionTerminal % 10 == 0) {
 					PaymentTerminal terminal = place.getPaymentTerminal();
 					terminal.setStatus(PaymentTerminalStatus.BROKEN);
-					System.out.println(place.getId() + ". Терминал №" + terminal.getId() + " сломался\n");
+					
+					log.append(" Терминал №" + terminal.getId() + " сломался\n");
+					log.setCaretPosition(log.getText().length());
+					
 					while(terminal.getStatus() == PaymentTerminalStatus.BROKEN) {
 						try {
 							sleep(1000);
@@ -40,6 +47,9 @@ public class PlaceThread implements Runnable{
 					}
 					terminal.setStatus(PaymentTerminalStatus.WORK);
 					Budgeting.REPAIRS += 200;
+					
+					log.append(" Терминал №" + terminal.getId() + " починили!\n");
+					log.setCaretPosition(log.getText().length());
 				}
 				Budgeting.INCOME += 500;
 				
@@ -48,7 +58,10 @@ public class PlaceThread implements Runnable{
 				if (conditionBarrier % 10 == 0) {
 					Barrier barrier = place.getBarrier();
 					barrier.setStatus(BarrierStatus.BROKEN);
-					System.out.println(place.getId() + ". Шлагбаум №" + barrier.getId() + " сломался\n");
+					
+					log.append(" Шлагбаум №" + barrier.getId() + " сломался\n");
+					log.setCaretPosition(log.getText().length());
+					
 					while(barrier.getStatus() == BarrierStatus.BROKEN) {
 						try {
 							sleep(1000);
@@ -58,6 +71,9 @@ public class PlaceThread implements Runnable{
 					}
 					barrier.setStatus(BarrierStatus.WORK);
 					Budgeting.REPAIRS += 100;
+					
+					log.append(" Шлагбаум №" + barrier.getId() + " починили!\n");
+					log.setCaretPosition(log.getText().length());
 				}
 				
 				int time = new Random().nextInt(60000 - 30000) + 30000;
@@ -69,9 +85,9 @@ public class PlaceThread implements Runnable{
 				place.addTime((int) (time / 1000));
 				
 				Car car = place.getQueue().get(0);
-				System.out.print("Машина №" + car.getId() + " выехала из " + place.getId());
+				log.append(" Машина №" + car.getId() + " выехала из " + place.getId());
 				place.getQueue().remove(0);
-				System.out.println(". Очередь составляет - " + place.getQueue().size() + "\n");
+				log.append(". Очередь составляет - " + place.getQueue().size() + "\n");
 				
 				if (place.getQueue().isEmpty()) {
 					place.setStatus(PlaceStatus.DONTWORK);
