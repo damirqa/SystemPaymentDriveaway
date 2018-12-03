@@ -26,6 +26,7 @@ import damirqa.com.github.threads.CarCreationThread;
 import damirqa.com.github.threads.CarTrackerThread;
 import damirqa.com.github.threads.ConditionTrackerThread;
 import damirqa.com.github.threads.PlaceThread;
+import damirqa.com.github.threads.timeClockThread;
 import damirqa.com.github.threads.trackJob;
 
 import javax.swing.JLabel;
@@ -98,6 +99,8 @@ public class Window extends JFrame {
 
 	private static ArrayList<JLabel> conditionBarrier = new ArrayList<JLabel>();
 	
+	private static JLabel timeClock;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -125,6 +128,9 @@ public class Window extends JFrame {
 					
 					Thread jobTracker = new Thread(new trackJob(spentField));
 					jobTracker.start();
+					
+					Thread timeThread = new Thread(new timeClockThread(timeClock));
+					timeThread.start();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -385,6 +391,11 @@ public class Window extends JFrame {
 		priceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		priceLabel.setBounds(450, 330, 150, 20);
 		contentPanel.add(priceLabel);
+		
+		timeClock = new JLabel();
+		timeClock.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+		timeClock.setBounds(450, 360, 300, 30);
+		contentPanel.add(timeClock);
 		
 		
 		
