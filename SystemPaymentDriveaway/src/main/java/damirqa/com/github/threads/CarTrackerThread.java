@@ -7,28 +7,32 @@ import damirqa.com.github.storage.Statistics;
 
 import static java.lang.Thread.sleep;
 
+import javax.swing.JTextArea;
+
 public class CarTrackerThread implements Runnable{
 	
-	Place place = null;
-	Car car;
+	private Place place = null;
+	private Car car;
+	private JTextArea log;
+	
+	public CarTrackerThread(JTextArea log) {
+		this.log = log;
+	}
 	
 		
 	public void run() {
 		while(true) {
-			
 			place = null;
-			
 			getCar();
-			
-			//System.out.println("Машина №" + car.getId() + " проехала через трекер\n");
-			
+									
 			for (Place workPlace : Statistics.PLACES) {
 				if (workPlace.getStatus() == PlaceStatus.WORK && workPlace.getQueue().size() < 3) {
 					place = workPlace;
 					place.getQueue().add(car);
 					Statistics.QUEUE.remove(car);
 					
-					System.out.println("Машина №" + car.getId() + " встала в очередь рабочего терминала №" + place.getId() + "\n");
+					log.append(" Машина №" + car.getId() + " встала в очередь к терминалу №" + place.getId() + "\n");
+					log.setCaretPosition(log.getText().length());
 					break;
 				}
 			}
@@ -40,25 +44,26 @@ public class CarTrackerThread implements Runnable{
 						place.setStatus();
 						place.getQueue().add(car);
 						Statistics.QUEUE.remove(car);
-						System.out.println("Трекер открыл терминал №" + place.getId() + ". Машина №" + car.getId() + " подъехала к этому терминалу\n");
+						
+						log.append(" Трекер открыл терминал №" + place.getId() + ". Машина №" + car.getId() + " подъехала к этому терминалу\n");
+						log.setCaretPosition(log.getText().length());
 						break;
 					}
 				}
 			}
 						
 			if (place == null) { 
-				//System.out.println("Все терминалы включены");
 				int id = 0;
 				int min = Statistics.PLACES.get(0).getQueue().size();
 				int max = Statistics.PLACES.get(0).getQueue().size();
 				
-				for (Place anyPlace : Statistics.PLACES) {
-					if (anyPlace.getQueue().size() > max) {
-						max = anyPlace.getQueue().size();
+				for (Place anyWorkPlace : Statistics.PLACES) {
+					if (anyWorkPlace.getQueue().size() > max) {
+						max = anyWorkPlace.getQueue().size();
 					}
-					else {
-						id = anyPlace.getId();
-						min = anyPlace.getQueue().size();
+					else{
+						id = anyWorkPlace.getId();
+						min = anyWorkPlace.getQueue().size();
 					}
 				}
 				
@@ -66,13 +71,15 @@ public class CarTrackerThread implements Runnable{
 				place.getQueue().add(car);
 				Statistics.QUEUE.remove(car);
 				
-				System.out.println(" Машина №" + car.getId() + " встала в очередь к терминалу №" + place.getId() + ", так как там меньше всего машин стоят в очереди\n");
-				
-				try {
-					sleep(1000);
-				} catch (InterruptedException e) {
-					e.getMessage();
-				}
+				log.append(" Машина №" + car.getId() + " встала в очередь к терминалу №" + place.getId() + ", так как там меньше всего машин стоят в очереди\n");
+				log.setCaretPosition(log.getText().length());
+			}
+			
+			try {
+				sleep(1000);
+				Statistics.SPENT += 1;
+			} catch (InterruptedException e) {
+				e.getMessage();
 			}
 		}
 	}
@@ -81,6 +88,7 @@ public class CarTrackerThread implements Runnable{
 		if (Statistics.QUEUE.isEmpty()) {
 			try {
 				sleep(1000);
+				Statistics.SPENT += 1;
 			} catch (InterruptedException e) {
 				e.getMessage();
 			}

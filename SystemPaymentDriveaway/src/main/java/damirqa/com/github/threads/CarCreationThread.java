@@ -12,7 +12,7 @@ public class CarCreationThread implements Runnable{
 	public void run() {
 		while(true) {
 			Statistics.QUEUE.add(new Car());
-			int timeBetweenCar = new Random().nextInt(90000 - 10000) + 10000;
+			int timeBetweenCar = new Random().nextInt(15000 - 5000) + 1000;
 			try {
 				sleep(timeBetweenCar);
 			} catch (InterruptedException e) {
