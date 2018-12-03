@@ -26,6 +26,7 @@ import damirqa.com.github.threads.CarCreationThread;
 import damirqa.com.github.threads.CarTrackerThread;
 import damirqa.com.github.threads.ConditionTrackerThread;
 import damirqa.com.github.threads.PlaceThread;
+import damirqa.com.github.threads.QueueTrackerThread;
 import damirqa.com.github.threads.timeClockThread;
 import damirqa.com.github.threads.trackJob;
 
@@ -38,7 +39,7 @@ import java.awt.event.ActionEvent;
 public class Window extends JFrame {
 
 	private int width = 800;
-	private int height = 450;
+	private int height = 580;
 	
 	private JPanel contentPanel;
 	
@@ -96,8 +97,16 @@ public class Window extends JFrame {
 	private static JLabel conditionBarrier3;
 	private static JLabel conditionBarrier4;
 	private static JLabel conditionBarrier5;
-
+	
 	private static ArrayList<JLabel> conditionBarrier = new ArrayList<JLabel>();
+	
+	private JLabel queue1;
+	private JLabel queue2;
+	private JLabel queue3;
+	private JLabel queue4;
+	private JLabel queue5;
+
+	private static ArrayList<JLabel> queue = new ArrayList<>();
 	
 	private static JLabel timeClock;
 	
@@ -131,6 +140,9 @@ public class Window extends JFrame {
 					
 					Thread timeThread = new Thread(new timeClockThread(timeClock));
 					timeThread.start();
+					
+					Thread queueTracker = new Thread(new QueueTrackerThread(queue));
+					queueTracker.start();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -338,65 +350,94 @@ public class Window extends JFrame {
 		
 		incomeLabel = new JLabel("Доходы:");
 		incomeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		incomeLabel.setBounds(450, 230, 60, 20);
+		incomeLabel.setBounds(13, 405, 60, 20);
 		contentPanel.add(incomeLabel);
 		
 		incomeField = new JTextField();
 		incomeField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		incomeField.setBackground(Color.WHITE);
 		incomeField.setEditable(false);
-		incomeField.setBounds(520, 230, 100, 20);
+		incomeField.setBounds(75, 405, 115, 20);
 		contentPanel.add(incomeField);
 		budgetField.add(incomeField);
 		
 		repairsLabel = new JLabel("Ремонт:");
 		repairsLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		repairsLabel.setBounds(450, 255, 60, 20);
+		repairsLabel.setBounds(13, 430, 60, 20);
 		contentPanel.add(repairsLabel);
 		
 		repairsField = new JTextField();
 		repairsField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		repairsField.setBackground(Color.WHITE);
 		repairsField.setEditable(false);
-		repairsField.setBounds(520, 255, 100, 20);
+		repairsField.setBounds(75, 430, 115, 20);
 		contentPanel.add(repairsField);
 		budgetField.add(repairsField);
 		
 		spentLabel = new JLabel("Потрачено кВт/ч:");
 		spentLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		spentLabel.setBounds(450, 280, 125, 20);
+		spentLabel.setBounds(13, 455, 125, 20);
 		contentPanel.add(spentLabel);
 		
 		spentField = new JTextField();
 		spentField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		spentField.setBackground(Color.WHITE);
 		spentField.setEditable(false);
-		spentField.setBounds(580, 280, 40, 20);
+		spentField.setBounds(140, 455, 50, 20);
 		contentPanel.add(spentField);
 		
 		profitLabel = new JLabel("Прибыль:");
 		profitLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		profitLabel.setBounds(450, 305, 70, 20);
+		profitLabel.setBounds(13, 480, 70, 20);
 		contentPanel.add(profitLabel);
 		
 		profitField = new JTextField();
 		profitField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		profitField.setBackground(Color.WHITE);
 		profitField.setEditable(false);
-		profitField.setBounds(520, 305, 100, 20);
+		profitField.setBounds(90, 480, 100, 20);
 		contentPanel.add(profitField);
 		budgetField.add(profitField);
 		
 		priceLabel = new JLabel("Цена 1 кВ/Ч = 3 руб.");
 		priceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		priceLabel.setBounds(450, 330, 150, 20);
+		priceLabel.setBounds(13, 505, 150, 20);
 		contentPanel.add(priceLabel);
 		
 		timeClock = new JLabel();
-		timeClock.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		timeClock.setBounds(450, 360, 300, 30);
+		timeClock.setFont(new Font("Segoe UI", Font.PLAIN, 80));
+		timeClock.setBounds(230, 405, 550, 100);
 		contentPanel.add(timeClock);
 		
+		queue1 = new JLabel("Очередь 1 - ");
+		queue1.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		queue1.setBounds(450, 223, 130, 25);
+		contentPanel.add(queue1);
+		queue.add(queue1);
+
+		queue2 = new JLabel("Очередь 2 - ");
+		queue2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		queue2.setBounds(450, 248, 130, 25);
+		contentPanel.add(queue2);
+		queue.add(queue2);
+		
+		queue3 = new JLabel("Очередь 3 - ");
+		queue3.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		queue3.setBounds(450, 273, 130, 25);
+		contentPanel.add(queue3);
+		queue.add(queue3);
+		
+		queue4 = new JLabel("Очередь 4 - ");
+		queue4.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		queue4.setBounds(450, 298, 130, 25);
+		contentPanel.add(queue4);
+		queue.add(queue4);
+		
+		queue5 = new JLabel("Очередь 5 - ");
+		queue5.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		queue5.setBounds(450, 323, 130, 25);
+		contentPanel.add(queue5);
+		queue.add(queue5);
 		
 		
 		fixTerminalButton.addActionListener(new ActionListener() {
